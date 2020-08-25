@@ -3,6 +3,8 @@ package com.technuoma.easyHomezIndia.homePOJO;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Cat {
     @SerializedName("id")
     @Expose
@@ -16,12 +18,15 @@ public class Cat {
     @SerializedName("space")
     @Expose
     private String space;
-    @SerializedName("tag")
-    @Expose
-    private String tag;
     @SerializedName("description")
     @Expose
     private String description;
+    @SerializedName("tag")
+    @Expose
+    private String tag;
+    @SerializedName("subcat")
+    @Expose
+    private List<Subcat> subcat = null;
 
     public String getId() {
         return id;
@@ -55,6 +60,14 @@ public class Cat {
         this.space = space;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getTag() {
         return tag;
     }
@@ -63,11 +76,11 @@ public class Cat {
         this.tag = tag;
     }
 
-    public String getDescription() {
-        return description;
+    public List<Subcat> getSubcat() {
+        return subcat;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setSubcat(List<Subcat> subcat) {
+        this.subcat = subcat;
     }
 }

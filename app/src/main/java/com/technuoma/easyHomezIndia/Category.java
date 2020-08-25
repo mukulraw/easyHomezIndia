@@ -14,13 +14,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.technuoma.easyHomezIndia.homePOJO.Cat;
+import com.technuoma.easyHomezIndia.homePOJO.Subcat;
 import com.technuoma.easyHomezIndia.homePOJO.homeBean;
+import com.technuoma.easyHomezIndia.subCat1POJO.Datum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,7 +102,7 @@ public class Category extends AppCompatActivity {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        Call<homeBean> call = cr.getHome(SharePreferenceUtils.getInstance().getString("lat") , SharePreferenceUtils.getInstance().getString("lng"));
+        Call<homeBean> call = cr.getHome(SharePreferenceUtils.getInstance().getString("lat"), SharePreferenceUtils.getInstance().getString("lng"));
         call.enqueue(new Callback<homeBean>() {
             @Override
             public void onResponse(Call<homeBean> call, Response<homeBean> response) {
@@ -158,15 +161,31 @@ public class Category extends AppCompatActivity {
             holder.title.setText(item.getName());
             holder.desc.setText(item.getDescription());
 
+            SubCategoryAdapter adapter = new SubCategoryAdapter(context , item.getSubcat());
+            GridLayoutManager manager = new GridLayoutManager(context , 3);
+            holder.gridl.setAdapter(adapter);
+            holder.gridl.setLayoutManager(manager);
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    Intent intent = new Intent(context, SubCat.class);
+                    if (holder.hide.getVisibility() == View.VISIBLE)
+                    {
+                        holder.hide.setVisibility(View.GONE);
+                        holder.main.setCardBackgroundColor(Color.parseColor("#ffffff"));
+                    }
+                    else
+                    {
+                        holder.hide.setVisibility(View.VISIBLE);
+                        holder.main.setCardBackgroundColor(Color.parseColor("#FFF3E0"));
+                    }
+
+                    /*Intent intent = new Intent(context, SubCat.class);
                     intent.putExtra("id", item.getId());
                     intent.putExtra("title", item.getName());
                     intent.putExtra("image", item.getImage());
-                    context.startActivity(intent);
+                    context.startActivity(intent);*/
 
                 }
             });
@@ -183,6 +202,8 @@ public class Category extends AppCompatActivity {
 
             ImageView image;
             TextView tag, title, desc;
+            RecyclerView gridl;
+            CardView hide , main;
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -191,6 +212,83 @@ public class Category extends AppCompatActivity {
                 //tag = itemView.findViewById(R.id.textView17);
                 title = itemView.findViewById(R.id.textView18);
                 desc = itemView.findViewById(R.id.textView5);
+                gridl = itemView.findViewById(R.id.secondgrid);
+                hide = itemView.findViewById(R.id.grid);
+                main = itemView.findViewById(R.id.linearLayout3);
+
+
+            }
+        }
+    }
+
+    class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.ViewHolder> {
+
+        Context context;
+        List<Subcat> list = new ArrayList<>();
+
+        public SubCategoryAdapter(Context context, List<Subcat> list) {
+            this.context = context;
+            this.list = list;
+        }
+
+        /*public void setData(List<Datum> list)
+        {
+            this.list = list;
+            notifyDataSetChanged();
+        }
+*/
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.sub_category_list_model, parent, false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+            final Subcat item = list.get(position);
+
+
+            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
+            ImageLoader loader = ImageLoader.getInstance();
+            loader.displayImage(item.getImage() , holder.image , options);
+
+
+            holder.title.setText(item.getName());
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent intent = new Intent(context , Products.class);
+                    intent.putExtra("id" , item.getId());
+                    intent.putExtra("title" , item.getName());
+                    context.startActivity(intent);
+
+                }
+            });
+
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+
+            ImageView image;
+            TextView title;
+
+            public ViewHolder(@NonNull View itemView) {
+                super(itemView);
+
+                image = itemView.findViewById(R.id.imageView4);
+
+                title = itemView.findViewById(R.id.textView11);
 
 
             }
