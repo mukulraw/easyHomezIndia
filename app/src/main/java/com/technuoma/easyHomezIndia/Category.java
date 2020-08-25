@@ -179,6 +179,9 @@ public class Category extends AppCompatActivity {
                     {
                         holder.hide.setVisibility(View.VISIBLE);
                         holder.main.setCardBackgroundColor(Color.parseColor("#FFF3E0"));
+
+                        grid.smoothScrollToPosition(position);
+
                     }
 
                     /*Intent intent = new Intent(context, SubCat.class);
