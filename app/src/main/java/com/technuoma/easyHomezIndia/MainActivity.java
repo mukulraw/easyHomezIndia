@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.text.Html;
@@ -67,8 +68,10 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.santalu.autoviewpager.AutoViewPager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -624,7 +627,19 @@ public class MainActivity extends AppCompatActivity implements ResultCallback<Lo
                     }
 
                     SharePreferenceUtils.getInstance().saveString("location", response.body().getLocation());
-                    location.setText(response.body().getCity());
+
+
+                    Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
+                    List<android.location.Address> addresses = null;
+                    try {
+                        addresses = geocoder.getFromLocation(Double.parseDouble(SharePreferenceUtils.getInstance().getString("lat")), Double.parseDouble(SharePreferenceUtils.getInstance().getString("lng")), 1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    Log.d("address", addresses.toString());
+
+                    location.setText(addresses.get(0).getAddressLine(0));
 
                 }
 
