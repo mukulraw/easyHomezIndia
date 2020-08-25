@@ -61,6 +61,8 @@ public interface AllApiIneterface {
     @Multipart
     @POST("easyhomez/api/login.php")
     Call<loginBean> login(
+            @Part("name") String name,
+            @Part("email") String email,
             @Part("phone") String phone,
             @Part("token") String token,
             @Part("referrer") String referrer

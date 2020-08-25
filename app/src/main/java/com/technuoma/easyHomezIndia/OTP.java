@@ -1,6 +1,7 @@
 package com.technuoma.easyHomezIndia;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,9 +10,11 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -28,16 +31,32 @@ public class OTP extends AppCompatActivity {
     EditText phone;
     Button login;
     ProgressBar progress;
-
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp);
 
+        toolbar = findViewById(R.id.textView3);
         phone = findViewById(R.id.editText);
         login = findViewById(R.id.button);
         progress = findViewById(R.id.progressBar);
 
+        setSupportActionBar(toolbar);
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.setTitle("Verify Phone");
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
