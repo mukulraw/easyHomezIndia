@@ -70,12 +70,11 @@ public class Search extends AppCompatActivity {
 
         });
 
-        adapter = new SearchAdapter(this , list);
-        manager = new GridLayoutManager(this , 1);
+        adapter = new SearchAdapter(this, list);
+        manager = new GridLayoutManager(this, 1);
 
         grid.setAdapter(adapter);
         grid.setLayoutManager(manager);
-
 
 
         query.addTextChangedListener(new TextWatcher() {
@@ -87,8 +86,7 @@ public class Search extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                if (s.length() > 0)
-                {
+                if (s.length() > 3) {
 
 
                     progress.setVisibility(View.VISIBLE);
@@ -109,15 +107,16 @@ public class Search extends AppCompatActivity {
                             .build();
                     AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-                    Call<searchBean> call = cr.search(s.toString() , SharePreferenceUtils.getInstance().getString("location"));
+                    Call<searchBean> call = cr.search(s.toString(), SharePreferenceUtils.getInstance().getString("location"));
                     call.enqueue(new Callback<searchBean>() {
                         @Override
                         public void onResponse(Call<searchBean> call, Response<searchBean> response) {
 
 
-                            if (response.body().getStatus().equals("1"))
-                            {
+                            if (response.body().getStatus().equals("1")) {
                                 adapter.setData(response.body().getData());
+                            } else {
+                                adapter.setData(new ArrayList<>());
                             }
 
                             progress.setVisibility(View.GONE);
@@ -132,9 +131,7 @@ public class Search extends AppCompatActivity {
                     });
 
 
-                }
-                else
-                {
+                } else {
 
                     adapter.setData(new ArrayList<Datum>());
 
@@ -151,20 +148,17 @@ public class Search extends AppCompatActivity {
 
     }
 
-    class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder>
-    {
+    class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
 
         Context context;
         List<Datum> list = new ArrayList<>();
 
-        public SearchAdapter(Context context , List<Datum> list)
-        {
+        public SearchAdapter(Context context, List<Datum> list) {
             this.context = context;
             this.list = list;
         }
 
-        public void setData(List<Datum> list)
-        {
+        public void setData(List<Datum> list) {
             this.list = list;
             notifyDataSetChanged();
         }
@@ -172,8 +166,8 @@ public class Search extends AppCompatActivity {
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.search_list_model , parent , false);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.search_list_model, parent, false);
             return new ViewHolder(view);
         }
 
@@ -183,18 +177,16 @@ public class Search extends AppCompatActivity {
             final Datum item = list.get(position);
 
 
-
             holder.title.setText(item.getName());
-
 
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    Intent intent = new Intent(context , SingleProduct.class);
-                    intent.putExtra("id" , item.getPid());
-                    intent.putExtra("title" , item.getName());
+                    Intent intent = new Intent(context, SingleProduct.class);
+                    intent.putExtra("id", item.getPid());
+                    intent.putExtra("title", item.getName());
                     context.startActivity(intent);
 
                 }
@@ -208,8 +200,7 @@ public class Search extends AppCompatActivity {
             return list.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder
-        {
+        class ViewHolder extends RecyclerView.ViewHolder {
 
             TextView title;
 
@@ -217,9 +208,7 @@ public class Search extends AppCompatActivity {
                 super(itemView);
 
 
-
                 title = itemView.findViewById(R.id.textView37);
-
 
 
             }
