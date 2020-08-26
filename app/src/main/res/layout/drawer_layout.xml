@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.12" />
+        app:layout_constraintGuide_percent="0.2" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -25,194 +25,279 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@color/colorAccent" />
 
-    <TextView
-        android:id="@+id/rewards"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="8dp"
-        android:text="Wallet - "
-        android:gravity="end"
-        android:textColor="#ffffff"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
         android:text="LOGIN"
         android:textColor="#ffffff"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintBottom_toTopOf="@+id/textView74"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="My Network"
-            android:drawableStart="@drawable/ic_wallet"
-            android:drawablePadding="22dp"
-            android:id="@+id/wallet"
-            />
+            android:orientation="vertical"
+            >
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="West Delhi"
-            android:visibility="gone"
-            android:drawableStart="@drawable/ic_pin"
-            android:drawablePadding="22dp"
-            android:id="@+id/home"
-            />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="My Profile"
+                android:textSize="16sp"
+                android:drawableStart="@drawable/ic_user"
+                android:drawablePadding="22dp"
+                android:id="@+id/profile"
+                />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#cdcdcd"
-            />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="My Orders"
+                android:drawablePadding="22dp"
+                android:textSize="16sp"
+                android:drawableStart="@drawable/ic_format_list_bulleted_black_24dp"
+                android:id="@+id/orders"
+                />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="My Cart"
-            android:drawableStart="@drawable/ic_shopping_cart_black_24dp"
-            android:drawablePadding="22dp"
-            android:id="@+id/cart"
-            android:padding="15dp"
-            />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="My Wallet"
+                android:drawablePadding="22dp"
+                android:drawableStart="@drawable/ic_wallet"
+                android:textSize="16sp"
+                android:id="@+id/rewards"
+                />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="My Wishlist"
-            android:id="@+id/wishlist"
-            android:visibility="gone"
-            />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="Offer Zone"
+                android:drawablePadding="22dp"
+                android:drawableStart="@drawable/ic_sale"
+                android:textSize="16sp"
+                android:id="@+id/offer"
+                />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="My Orders"
-            android:drawablePadding="22dp"
-            android:drawableStart="@drawable/ic_format_list_bulleted_black_24dp"
-            android:id="@+id/orders"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="My Addresses"
-            android:drawablePadding="22dp"
-            android:drawableStart="@drawable/ic_home_black_24dp"
-            android:id="@+id/address"
-            />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#cdcdcd"
+                />
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="My Profile"
-            android:visibility="gone"
-            android:id="@+id/profile"
-            />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="My Addresses"
+                android:drawablePadding="22dp"
+                android:drawableStart="@drawable/ic_book"
+                android:textSize="16sp"
+                android:id="@+id/address"
+                />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#cdcdcd"
-            />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="My Wishlist"
+                android:drawablePadding="22dp"
+                android:drawableStart="@drawable/ic_wishlist"
+                android:textSize="16sp"
+                android:id="@+id/wishlist"
+                />
 
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="For Lachcha order, click here"
-            android:visibility="gone"
-            android:id="@+id/lachcha"
-            />
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="Terms &amp; Conditions"
-            android:drawablePadding="22dp"
-            android:drawableStart="@drawable/ic_assignment_black_24dp"
-            android:visibility="visible"
-            android:id="@+id/terms"
-            />
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="About Us"
-            android:visibility="visible"
-            android:drawablePadding="22dp"
-            android:drawableStart="@drawable/ic_help_black_24dp"
-            android:id="@+id/about"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="Refer and Earn"
-            android:visibility="visible"
-            android:drawablePadding="22dp"
-            android:drawableStart="@drawable/ic_rupee"
-            android:id="@+id/refer"
-            />
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#cdcdcd"
-            />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="Refer and Earn"
+                android:visibility="visible"
+                android:drawablePadding="22dp"
+                android:drawableStart="@drawable/ic_referral"
+                android:textSize="16sp"
+                android:id="@+id/refer"
+                />
 
 
 
-        <TextView
-            android:id="@+id/logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:drawablePadding="22dp"
-            android:drawableStart="@drawable/ic_power_settings_new_black_24dp"
-            android:text="Logout" />
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="My Business"
+                android:drawableStart="@drawable/ic_graph"
+                android:drawablePadding="22dp"
+                android:textSize="16sp"
+                android:id="@+id/wallet"
+                />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="West Delhi"
+                android:visibility="gone"
+                android:drawableStart="@drawable/ic_pin"
+                android:drawablePadding="22dp"
+                android:id="@+id/home"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#cdcdcd"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="My Cart"
+                android:drawableStart="@drawable/ic_shopping_cart_black_24dp"
+                android:drawablePadding="22dp"
+                android:visibility="gone"
+                android:id="@+id/cart"
+                android:padding="15dp"
+                />
+
+
+
+
+
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="For Lachcha order, click here"
+                android:visibility="gone"
+                android:id="@+id/lachcha"
+                />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="Terms &amp; Conditions"
+                android:drawablePadding="22dp"
+                android:textSize="16sp"
+                android:drawableStart="@drawable/ic_term"
+                android:visibility="visible"
+                android:id="@+id/terms"
+                />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="About Us"
+                android:visibility="visible"
+                android:textSize="16sp"
+                android:drawablePadding="22dp"
+                android:drawableStart="@drawable/ic_help_black_24dp"
+                android:id="@+id/about"
+                />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="Rate Us"
+                android:visibility="visible"
+                android:textSize="16sp"
+                android:drawablePadding="22dp"
+                android:drawableStart="@drawable/ic_star"
+                android:id="@+id/rate"
+                />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#cdcdcd"
+                />
+
+
+
+            <TextView
+                android:id="@+id/logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:textSize="16sp"
+                android:drawablePadding="22dp"
+                android:drawableStart="@drawable/ic_power_settings_new_black_24dp"
+                android:text="Logout" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageView10"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/download"
+        app:civ_border_width="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView73"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="#ffffff"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView74"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="4dp"
+        android:textColor="#ffffff"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView73"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
