@@ -237,9 +237,18 @@ public class Cart extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (amm > 0) {
-                    Intent intent = new Intent(Cart.this, Checkout.class);
-                    intent.putExtra("amount", String.valueOf(amm));
-                    startActivity(intent);
+
+                    if (tt > 0) {
+                        Intent intent = new Intent(Cart.this, Checkout.class);
+                        intent.putExtra("amount", String.valueOf(amm + tt));
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(Cart.this, Checkout.class);
+                        intent.putExtra("amount", String.valueOf(amm));
+                        startActivity(intent);
+                    }
+
+
                 } else {
                     Toast.makeText(Cart.this, "Invalid amount", Toast.LENGTH_SHORT).show();
                 }
