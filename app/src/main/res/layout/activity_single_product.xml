@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:background="@color/shade"
     tools:context=".SingleProduct">
 
@@ -42,23 +43,23 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
-                        <androidx.viewpager.widget.ViewPager
-                            android:id="@+id/image"
-                            android:layout_width="match_parent"
-                            android:layout_height="250dp"
-                            android:layout_marginTop="8dp"
-                            android:adjustViewBounds="true"
-                            android:scaleType="fitXY" />
+
+                            <androidx.viewpager.widget.ViewPager
+                                android:id="@+id/image"
+                                android:layout_width="match_parent"
+                                android:layout_height="250dp"
+                                android:layout_marginTop="8dp"
+                                android:adjustViewBounds="true"
+                                android:scaleType="fitXY" />
 
                             <me.relex.circleindicator.CircleIndicator
+                                android:id="@+id/indicator"
                                 android:layout_width="wrap_content"
                                 android:layout_height="48dp"
                                 android:layout_alignParentBottom="true"
                                 android:layout_centerHorizontal="true"
-                                android:id="@+id/indicator"
                                 app:ci_drawable="@drawable/accent_radius"
-                                app:ci_drawable_unselected="@drawable/white_radius3"
-                                />
+                                app:ci_drawable_unselected="@drawable/white_radius3" />
 
                         </RelativeLayout>
 
@@ -87,9 +88,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
-                            android:textSize="18sp"
                             android:layout_marginEnd="8dp"
-                            android:textColor="#000000" />
+                            android:textColor="#000000"
+                            android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/stock"
@@ -97,9 +98,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
-                            android:textSize="16dp"
                             android:layout_marginEnd="8dp"
-                            android:textColor="#FF9800" />
+                            android:textColor="#FF9800"
+                            android:textSize="16dp" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -108,26 +109,24 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
+                                android:layout_centerVertical="true"
                                 android:layout_marginStart="8dp"
                                 android:layout_marginTop="8dp"
                                 android:layout_marginEnd="8dp"
-                                android:layout_centerVertical="true"
-                                >
-                            <TextView
-                                android:id="@+id/price"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="16sp"
-                                 />
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/price"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="16sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="4dp"
                                     android:text="(Inclusive of all Taxes)"
-                                    android:textSize="12sp"
-                                    />
+                                    android:textSize="12sp" />
 
 
                             </LinearLayout>
@@ -165,8 +164,8 @@
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="8dp"
                             android:text="Brand"
-                            android:textSize="16dp"
-                            android:textColor="#000000" />
+                            android:textColor="#000000"
+                            android:textSize="16dp" />
 
                         <TextView
                             android:id="@+id/brand"
@@ -175,8 +174,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="8dp"
-                            android:textSize="16dp"
-                            />
+                            android:textSize="16dp" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -185,8 +183,8 @@
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="8dp"
                             android:text="Unit"
-                            android:textSize="16dp"
-                            android:textColor="#000000" />
+                            android:textColor="#000000"
+                            android:textSize="16dp" />
 
                         <TextView
                             android:id="@+id/unit"
@@ -195,14 +193,14 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:background="@drawable/accent_back_stroke"
                             android:paddingStart="18dp"
-                            android:paddingEnd="18dp"
                             android:paddingTop="5dp"
-                            android:textColor="@color/colorAccent"
+                            android:paddingEnd="18dp"
                             android:paddingBottom="5dp"
+                            android:textColor="@color/colorAccent"
                             android:textSize="16dp"
-                            android:layout_marginBottom="8dp"
                             android:visibility="visible" />
 
                         <TextView
@@ -244,24 +242,28 @@
 
 
                         <TextView
+                            android:id="@+id/descriptiontitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="8dp"
+                            android:drawableEnd="@drawable/ic_down_arrow"
+                            android:drawablePadding="10dp"
                             android:text="Description"
+                            android:textColor="#000000"
                             android:textSize="16sp"
-                            android:textColor="#000000" />
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/description"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:textSize="16sp"
-                            android:visibility="gone"
                             android:layout_marginTop="8dp"
-                            android:layout_marginEnd="8dp" />
+                            android:layout_marginEnd="8dp"
+                            android:textSize="16sp"
+                            android:visibility="gone" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -273,14 +275,18 @@
 
 
                         <TextView
+                            android:id="@+id/key_featurestitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="8dp"
-                            android:textSize="16sp"
+                            android:drawableEnd="@drawable/ic_down_arrow"
+                            android:drawablePadding="10dp"
                             android:text="Key Features"
-                            android:textColor="#000000" />
+                            android:textColor="#000000"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/key_features"
@@ -288,9 +294,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
                             android:textSize="16sp"
-                            android:visibility="gone"
-                            android:layout_marginEnd="8dp" />
+                            android:visibility="gone" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -302,14 +308,18 @@
 
 
                         <TextView
+                            android:id="@+id/packagingtitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="8dp"
+                            android:drawableEnd="@drawable/ic_down_arrow"
+                            android:drawablePadding="10dp"
                             android:text="Packaging Type"
+                            android:textColor="#000000"
                             android:textSize="16sp"
-                            android:textColor="#000000" />
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/packaging"
@@ -317,9 +327,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
                             android:textSize="16sp"
-                            android:visibility="gone"
-                            android:layout_marginEnd="8dp" />
+                            android:visibility="gone" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -331,14 +341,18 @@
 
 
                         <TextView
+                            android:id="@+id/lifetitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="8dp"
+                            android:drawableEnd="@drawable/ic_down_arrow"
+                            android:drawablePadding="10dp"
                             android:text="Shelf Life"
+                            android:textColor="#000000"
                             android:textSize="16sp"
-                            android:textColor="#000000" />
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/life"
@@ -346,10 +360,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
-                            android:textSize="16sp"
-                            android:visibility="gone"
+                            android:layout_marginEnd="8dp"
                             android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="8dp" />
+                            android:textSize="16sp"
+                            android:visibility="gone" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -366,10 +380,10 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="8dp"
-                            android:visibility="gone"
                             android:text="Disclaimer"
+                            android:textColor="#000000"
                             android:textSize="16sp"
-                            android:textColor="#000000" />
+                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/disclaimer"
@@ -377,14 +391,52 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
-                            android:textSize="16sp"
-                            android:visibility="gone"
                             android:layout_marginEnd="8dp"
-                            android:layout_marginBottom="8dp" />
+                            android:layout_marginBottom="8dp"
+                            android:textSize="16sp"
+                            android:visibility="gone" />
 
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Most Popular"
+                    android:layout_marginTop="16dp"
+                    android:textColor="#02425A">
+
+                </TextView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/loved"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:nestedScrollingEnabled="false"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Frequently Bought Together"
+                    android:layout_marginTop="16dp"
+                    android:textColor="#02425A">
+
+                </TextView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:nestedScrollingEnabled="false"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp" />
 
             </LinearLayout>
 

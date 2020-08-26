@@ -1,8 +1,10 @@
 package com.technuoma.easyHomezIndia;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -23,16 +25,23 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.technuoma.easyHomezIndia.homePOJO.Banners;
+import com.technuoma.easyHomezIndia.homePOJO.Best;
+import com.technuoma.easyHomezIndia.homePOJO.homeBean;
 import com.technuoma.easyHomezIndia.seingleProductPOJO.Data;
 import com.technuoma.easyHomezIndia.seingleProductPOJO.singleProductBean;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import me.relex.circleindicator.CircleIndicator;
@@ -54,6 +63,7 @@ public class SingleProduct extends AppCompatActivity {
     Button add;
     TextView brand, unit, seller;
     TextView description, key_features, packaging, life, disclaimer, stock;
+    TextView descriptiontitle, key_featurestitle, packagingtitle, lifetitle;
     ProgressBar progress;
 
     String id, name;
@@ -62,15 +72,27 @@ public class SingleProduct extends AppCompatActivity {
 
     CircleIndicator indicator;
 
+    RecyclerView recent, loved;
+    List<Best> list;
+    BestAdapter adapter2, adapter3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_product);
 
+        list = new ArrayList<>();
+
         id = getIntent().getStringExtra("id");
         name = getIntent().getStringExtra("title");
 
+        loved = findViewById(R.id.loved);
+        recent = findViewById(R.id.recent);
         toolbar = findViewById(R.id.toolbar);
+        descriptiontitle = findViewById(R.id.descriptiontitle);
+        key_featurestitle = findViewById(R.id.key_featurestitle);
+        packagingtitle = findViewById(R.id.packagingtitle);
+        lifetitle = findViewById(R.id.lifetitle);
         indicator = findViewById(R.id.indicator);
         image = findViewById(R.id.image);
         discount = findViewById(R.id.discount);
@@ -99,6 +121,64 @@ public class SingleProduct extends AppCompatActivity {
                 finish();
             }
 
+        });
+
+        adapter2 = new BestAdapter(this, list);
+        adapter3 = new BestAdapter(this, list);
+        LinearLayoutManager manager1 = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+        LinearLayoutManager manager2 = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+
+        recent.setAdapter(adapter2);
+        recent.setLayoutManager(manager1);
+
+        loved.setAdapter(adapter3);
+        loved.setLayoutManager(manager2);
+
+
+        descriptiontitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (description.getVisibility() == View.GONE) {
+                    description.setVisibility(View.VISIBLE);
+                } else {
+                    description.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        key_featurestitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (key_features.getVisibility() == View.GONE) {
+                    key_features.setVisibility(View.VISIBLE);
+                } else {
+                    key_features.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
+        packagingtitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (packaging.getVisibility() == View.GONE) {
+                    packaging.setVisibility(View.VISIBLE);
+                } else {
+                    packaging.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
+        lifetitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (life.getVisibility() == View.GONE) {
+                    life.setVisibility(View.VISIBLE);
+                } else {
+                    life.setVisibility(View.GONE);
+                }
+            }
         });
 
 
@@ -299,6 +379,30 @@ public class SingleProduct extends AppCompatActivity {
             }
         });
 
+        Call<homeBean> call2 = cr.getHome(SharePreferenceUtils.getInstance().getString("lat"), SharePreferenceUtils.getInstance().getString("lng"));
+        call2.enqueue(new Callback<homeBean>() {
+            @Override
+            public void onResponse(Call<homeBean> call, Response<homeBean> response) {
+
+
+                if (response.body().getStatus().equals("1")) {
+
+                    adapter2.setData(response.body().getBest());
+                    adapter3.setData(response.body().getToday());
+
+                }
+
+                progress.setVisibility(View.GONE);
+
+
+            }
+
+            @Override
+            public void onFailure(Call<homeBean> call, Throwable t) {
+                progress.setVisibility(View.GONE);
+            }
+        });
+
     }
 
     class BannerAdapter extends FragmentStatePagerAdapter {
@@ -353,6 +457,212 @@ public class SingleProduct extends AppCompatActivity {
 
 
             return view;
+        }
+    }
+
+    class BestAdapter extends RecyclerView.Adapter<BestAdapter.ViewHolder> {
+
+        Context context;
+        List<Best> list = new ArrayList<>();
+
+        public BestAdapter(Context context, List<Best> list) {
+            this.context = context;
+            this.list = list;
+        }
+
+        public void setData(List<Best> list) {
+            this.list = list;
+            notifyDataSetChanged();
+        }
+
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.best_list_model, parent, false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+            holder.setIsRecyclable(false);
+
+            final Best item = list.get(position);
+
+            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
+            ImageLoader loader = ImageLoader.getInstance();
+            loader.displayImage(item.getImage(), holder.image, options);
+
+            float dis = Float.parseFloat(item.getDiscount());
+
+            final String nv1;
+
+            if (item.getStock().equals("In stock")) {
+                holder.add.setEnabled(true);
+            } else {
+                holder.add.setEnabled(false);
+            }
+
+            holder.stock.setText(item.getStock());
+            holder.size.setText(item.getSize());
+
+            if (dis > 0) {
+
+                float pri = Float.parseFloat(item.getPrice());
+                float dv = (dis / 100) * pri;
+
+                float nv = pri - dv;
+
+                nv1 = String.valueOf(nv);
+
+                holder.discount.setVisibility(View.VISIBLE);
+                holder.discount.setText(item.getDiscount() + "% OFF");
+                holder.price.setText(Html.fromHtml("\u20B9 " + String.valueOf(nv)));
+                holder.newamount.setText(Html.fromHtml("<strike>\u20B9 " + item.getPrice() + "</strike>"));
+                holder.newamount.setVisibility(View.VISIBLE);
+            } else {
+
+                nv1 = item.getPrice();
+                holder.discount.setVisibility(View.GONE);
+                holder.price.setText("\u20B9 " + item.getPrice());
+                holder.newamount.setVisibility(View.GONE);
+            }
+
+
+            holder.title.setText(item.getName());
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent intent = new Intent(context, SingleProduct.class);
+                    intent.putExtra("id", item.getId());
+                    intent.putExtra("title", item.getName());
+                    context.startActivity(intent);
+
+                }
+            });
+
+            holder.add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    String uid = SharePreferenceUtils.getInstance().getString("userId");
+
+                    if (uid.length() > 0) {
+
+                        final Dialog dialog = new Dialog(context);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setCancelable(true);
+                        dialog.setContentView(R.layout.add_cart_dialog);
+                        dialog.show();
+
+                        final StepperTouch stepperTouch = dialog.findViewById(R.id.stepperTouch);
+                        Button add = dialog.findViewById(R.id.button8);
+                        final ProgressBar progressBar = dialog.findViewById(R.id.progressBar2);
+
+
+                        stepperTouch.setMinValue(1);
+                        stepperTouch.setMaxValue(99);
+                        stepperTouch.setSideTapEnabled(true);
+                        stepperTouch.setCount(1);
+
+                        add.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                progressBar.setVisibility(View.VISIBLE);
+
+                                Bean b = (Bean) getApplicationContext();
+
+
+                                HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+                                logging.level(HttpLoggingInterceptor.Level.HEADERS);
+                                logging.level(HttpLoggingInterceptor.Level.BODY);
+
+                                OkHttpClient client = new OkHttpClient.Builder().writeTimeout(1000, TimeUnit.SECONDS).readTimeout(1000, TimeUnit.SECONDS).connectTimeout(1000, TimeUnit.SECONDS).addInterceptor(logging).build();
+
+                                Retrofit retrofit = new Retrofit.Builder()
+                                        .baseUrl(b.baseurl)
+                                        .client(client)
+                                        .addConverterFactory(ScalarsConverterFactory.create())
+                                        .addConverterFactory(GsonConverterFactory.create())
+                                        .build();
+                                AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+                                Log.d("userid", SharePreferenceUtils.getInstance().getString("userid"));
+                                Log.d("pid", item.getId());
+                                Log.d("quantity", String.valueOf(stepperTouch.getCount()));
+                                Log.d("price", nv1);
+
+                                int versionCode = com.nostra13.universalimageloader.BuildConfig.VERSION_CODE;
+                                String versionName = com.nostra13.universalimageloader.BuildConfig.VERSION_NAME;
+
+                                Call<singleProductBean> call = cr.addCart(SharePreferenceUtils.getInstance().getString("userId"), item.getId(), String.valueOf(stepperTouch.getCount()), nv1, versionName);
+
+                                call.enqueue(new Callback<singleProductBean>() {
+                                    @Override
+                                    public void onResponse(Call<singleProductBean> call, Response<singleProductBean> response) {
+
+                                        if (response.body().getStatus().equals("1")) {
+                                            //loadCart();
+                                            dialog.dismiss();
+                                        }
+
+                                        Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                        progressBar.setVisibility(View.GONE);
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<singleProductBean> call, Throwable t) {
+                                        progressBar.setVisibility(View.GONE);
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                    } else {
+                        Toast.makeText(context, "Please login to continue", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(context, Login.class);
+                        context.startActivity(intent);
+
+                    }
+
+                }
+            });
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+
+            ImageView image;
+            TextView price, title, discount, stock, newamount, size;
+            Button add;
+
+            public ViewHolder(@NonNull View itemView) {
+                super(itemView);
+
+                image = itemView.findViewById(R.id.imageView4);
+                price = itemView.findViewById(R.id.textView11);
+                title = itemView.findViewById(R.id.textView12);
+                discount = itemView.findViewById(R.id.textView10);
+                add = itemView.findViewById(R.id.button5);
+                stock = itemView.findViewById(R.id.textView63);
+                newamount = itemView.findViewById(R.id.textView6);
+                size = itemView.findViewById(R.id.textView7);
+
+
+            }
         }
     }
 
