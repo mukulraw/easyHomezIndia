@@ -64,6 +64,9 @@ public class Data {
     @SerializedName("stock")
     @Expose
     private String stock;
+    @SerializedName("wishlist")
+    @Expose
+    private String wishlist;
 
     public String getId() {
         return id;
@@ -223,5 +226,13 @@ public class Data {
 
     public void setStock(String stock) {
         this.stock = stock;
+    }
+
+    public String getWishlist() {
+        return wishlist;
+    }
+
+    public void setWishlist(String wishlist) {
+        this.wishlist = wishlist;
     }
 }

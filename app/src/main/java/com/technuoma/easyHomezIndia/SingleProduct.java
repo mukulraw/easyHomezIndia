@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -76,6 +77,8 @@ public class SingleProduct extends AppCompatActivity {
     List<Best> list;
     BestAdapter adapter2, adapter3;
 
+    ImageButton wishlist;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +90,7 @@ public class SingleProduct extends AppCompatActivity {
         name = getIntent().getStringExtra("title");
 
         loved = findViewById(R.id.loved);
+        wishlist = findViewById(R.id.wishlist);
         recent = findViewById(R.id.recent);
         toolbar = findViewById(R.id.toolbar);
         descriptiontitle = findViewById(R.id.descriptiontitle);
@@ -304,7 +308,7 @@ public class SingleProduct extends AppCompatActivity {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        Call<singleProductBean> call = cr.getProductById(id);
+        Call<singleProductBean> call = cr.getProductById(id, SharePreferenceUtils.getInstance().getString("userId"));
         call.enqueue(new Callback<singleProductBean>() {
             @Override
             public void onResponse(Call<singleProductBean> call, Response<singleProductBean> response) {
@@ -341,6 +345,119 @@ public class SingleProduct extends AppCompatActivity {
                         nv1 = item.getPrice();
                         discount.setVisibility(View.GONE);
                         price.setText(Html.fromHtml("Selling Price:  <font color=\"#000000\"><b>\u20B9" + String.valueOf(item.getPrice()) + " </b></font>"));
+                    }
+
+                    if (item.getWishlist().equals("1")) {
+                        wishlist.setBackground(getDrawable(R.drawable.ic_heart1));
+
+                        wishlist.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                progress.setVisibility(View.VISIBLE);
+
+                                Bean b = (Bean) getApplicationContext();
+
+
+                                HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+                                logging.level(HttpLoggingInterceptor.Level.HEADERS);
+                                logging.level(HttpLoggingInterceptor.Level.BODY);
+
+                                OkHttpClient client = new OkHttpClient.Builder().writeTimeout(1000, TimeUnit.SECONDS).readTimeout(1000, TimeUnit.SECONDS).connectTimeout(1000, TimeUnit.SECONDS).addInterceptor(logging).build();
+
+                                Retrofit retrofit = new Retrofit.Builder()
+                                        .baseUrl(b.baseurl)
+                                        .client(client)
+                                        .addConverterFactory(ScalarsConverterFactory.create())
+                                        .addConverterFactory(GsonConverterFactory.create())
+                                        .build();
+                                AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                                int versionCode = com.nostra13.universalimageloader.BuildConfig.VERSION_CODE;
+                                String versionName = com.nostra13.universalimageloader.BuildConfig.VERSION_NAME;
+
+                                Call<singleProductBean> call = cr.removeWishlist(SharePreferenceUtils.getInstance().getString("userId"), item.getId());
+
+                                call.enqueue(new Callback<singleProductBean>() {
+                                    @Override
+                                    public void onResponse(Call<singleProductBean> call, Response<singleProductBean> response) {
+
+                                        if (response.body().getStatus().equals("1")) {
+                                            onResume();
+                                        }
+
+                                        Toast.makeText(SingleProduct.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                        progress.setVisibility(View.GONE);
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<singleProductBean> call, Throwable t) {
+                                        progress.setVisibility(View.GONE);
+                                    }
+                                });
+
+                            }
+                        });
+
+                    } else {
+                        wishlist.setBackground(getDrawable(R.drawable.ic_heart));
+
+                        wishlist.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                progress.setVisibility(View.VISIBLE);
+
+                                Bean b = (Bean) getApplicationContext();
+
+
+                                HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+                                logging.level(HttpLoggingInterceptor.Level.HEADERS);
+                                logging.level(HttpLoggingInterceptor.Level.BODY);
+
+                                OkHttpClient client = new OkHttpClient.Builder().writeTimeout(1000, TimeUnit.SECONDS).readTimeout(1000, TimeUnit.SECONDS).connectTimeout(1000, TimeUnit.SECONDS).addInterceptor(logging).build();
+
+                                Retrofit retrofit = new Retrofit.Builder()
+                                        .baseUrl(b.baseurl)
+                                        .client(client)
+                                        .addConverterFactory(ScalarsConverterFactory.create())
+                                        .addConverterFactory(GsonConverterFactory.create())
+                                        .build();
+                                AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                                int versionCode = com.nostra13.universalimageloader.BuildConfig.VERSION_CODE;
+                                String versionName = com.nostra13.universalimageloader.BuildConfig.VERSION_NAME;
+
+                                Call<singleProductBean> call = cr.addWishlist(SharePreferenceUtils.getInstance().getString("userId"), item.getId());
+
+                                call.enqueue(new Callback<singleProductBean>() {
+                                    @Override
+                                    public void onResponse(Call<singleProductBean> call, Response<singleProductBean> response) {
+
+                                        if (response.body().getStatus().equals("1")) {
+                                            onResume();
+                                        }
+
+                                        Toast.makeText(SingleProduct.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                        progress.setVisibility(View.GONE);
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<singleProductBean> call, Throwable t) {
+                                        progress.setVisibility(View.GONE);
+                                    }
+                                });
+
+                            }
+                        });
+
+
                     }
 
 

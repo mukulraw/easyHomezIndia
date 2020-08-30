@@ -48,7 +48,8 @@ public interface AllApiIneterface {
     @Multipart
     @POST("easyhomez/api/getProductById.php")
     Call<singleProductBean> getProductById(
-            @Part("id") String cat
+            @Part("id") String cat,
+            @Part("user_id") String user_id
     );
 
     @Multipart
@@ -86,6 +87,20 @@ public interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("easyhomez/api/addWishlist.php")
+    Call<singleProductBean> addWishlist(
+            @Part("user_id") String user_id,
+            @Part("product_id") String product_id
+    );
+
+    @Multipart
+    @POST("easyhomez/api/removeWishlist.php")
+    Call<singleProductBean> removeWishlist(
+            @Part("user_id") String user_id,
+            @Part("product_id") String product_id
+    );
+
+    @Multipart
     @POST("easyhomez/api/updateCart.php")
     Call<singleProductBean> updateCart(
             @Part("id") String id,
@@ -115,6 +130,12 @@ public interface AllApiIneterface {
     @POST("easyhomez/api/getOrderDetails.php")
     Call<orderDetailsBean> getOrderDetails(
             @Part("order_id") String order_id
+    );
+
+    @Multipart
+    @POST("easyhomez/api/getWishlist.php")
+    Call<orderDetailsBean> getWishlist(
+            @Part("user_id") String user_id
     );
 
     @Multipart
