@@ -14,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,7 +45,7 @@ public class SubCat extends AppCompatActivity {
     List<Datum> list;
     CategoryAdapter adapter;
 
-    String id , title,image;
+    String id, title, image;
     ImageView main_image;
 
     TextView title2;
@@ -84,10 +86,10 @@ public class SubCat extends AppCompatActivity {
 
         DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
         ImageLoader loader = ImageLoader.getInstance();
-        loader.displayImage(image , main_image , options);
+        loader.displayImage(image, main_image, options);
 
-        adapter = new CategoryAdapter(this , list);
-        GridLayoutManager manager = new GridLayoutManager(this , 3);
+        adapter = new CategoryAdapter(this, list);
+        GridLayoutManager manager = new GridLayoutManager(this, 3);
 
         grid.setAdapter(adapter);
         grid.setLayoutManager(manager);
@@ -120,8 +122,7 @@ public class SubCat extends AppCompatActivity {
             @Override
             public void onResponse(Call<subCat1Bean> call, Response<subCat1Bean> response) {
 
-                if (response.body().getStatus().equals("1"))
-                {
+                if (response.body().getStatus().equals("1")) {
                     adapter.setData(response.body().getData());
                 }
 
@@ -138,20 +139,17 @@ public class SubCat extends AppCompatActivity {
 
     }
 
-    class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder>
-    {
+    class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
         Context context;
         List<Datum> list = new ArrayList<>();
 
-        public CategoryAdapter(Context context , List<Datum> list)
-        {
+        public CategoryAdapter(Context context, List<Datum> list) {
             this.context = context;
             this.list = list;
         }
 
-        public void setData(List<Datum> list)
-        {
+        public void setData(List<Datum> list) {
             this.list = list;
             notifyDataSetChanged();
         }
@@ -159,8 +157,8 @@ public class SubCat extends AppCompatActivity {
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.sub_category_list_model , parent , false);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.sub_category_list_model, parent, false);
             return new ViewHolder(view);
         }
 
@@ -172,7 +170,7 @@ public class SubCat extends AppCompatActivity {
 
             DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
             ImageLoader loader = ImageLoader.getInstance();
-            loader.displayImage(item.getImage() , holder.image , options);
+            loader.displayImage(item.getImage(), holder.image, options);
 
 
             holder.title.setText(item.getName());
@@ -181,10 +179,19 @@ public class SubCat extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    Intent intent = new Intent(context , Products.class);
-                    intent.putExtra("id" , item.getId());
-                    intent.putExtra("title" , item.getName());
-                    context.startActivity(intent);
+
+                    FragmentManager fm4 = getSupportFragmentManager();
+
+                    FragmentTransaction ft4 = fm4.beginTransaction();
+                    Products frag14 = new Products();
+                    Bundle b = new Bundle();
+                    b.putString("id", item.getId());
+                    b.putString("title", item.getName());
+                    frag14.setArguments(b);
+                    ft4.replace(R.id.replace, frag14);
+                    ft4.addToBackStack(null);
+                    ft4.commit();
+
 
                 }
             });
@@ -197,8 +204,7 @@ public class SubCat extends AppCompatActivity {
             return list.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder
-        {
+        class ViewHolder extends RecyclerView.ViewHolder {
 
             ImageView image;
             TextView title;
@@ -209,7 +215,6 @@ public class SubCat extends AppCompatActivity {
                 image = itemView.findViewById(R.id.imageView4);
 
                 title = itemView.findViewById(R.id.textView11);
-
 
 
             }

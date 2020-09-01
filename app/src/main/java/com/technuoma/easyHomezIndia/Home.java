@@ -30,6 +30,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -182,8 +183,15 @@ public class Home extends Fragment implements ResultCallback<LocationSettingsRes
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(mainActivity, Category.class);
-                startActivity(intent);
+                FragmentManager fm4 = mainActivity.getSupportFragmentManager();
+
+                FragmentTransaction ft4 = fm4.beginTransaction();
+                Category frag14 = new Category();
+                Bundle b = new Bundle();
+                frag14.setArguments(b);
+                ft4.replace(R.id.replace, frag14);
+                ft4.addToBackStack(null);
+                ft4.commit();
 
             }
         });
@@ -341,10 +349,19 @@ public class Home extends Fragment implements ResultCallback<LocationSettingsRes
                 @Override
                 public void onClick(View view) {
 
-                    Intent intent = new Intent(context, Products.class);
-                    intent.putExtra("id", item.getId());
-                    intent.putExtra("title", item.getName());
-                    context.startActivity(intent);
+
+                    FragmentManager fm4 = mainActivity.getSupportFragmentManager();
+
+                    FragmentTransaction ft4 = fm4.beginTransaction();
+                    Products frag14 = new Products();
+                    Bundle b = new Bundle();
+                    b.putString("id", item.getId());
+                    b.putString("title", item.getName());
+                    frag14.setArguments(b);
+                    ft4.replace(R.id.replace, frag14);
+                    ft4.addToBackStack(null);
+                    ft4.commit();
+
 
                 }
             });

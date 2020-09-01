@@ -12,9 +12,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,7 +42,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class Category extends AppCompatActivity {
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+
+public class Category extends Fragment {
 
     Toolbar toolbar;
     RecyclerView grid;
@@ -46,46 +52,36 @@ public class Category extends AppCompatActivity {
     List<Cat> list;
     CategoryAdapter adapter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category);
+    static MainActivity mainActivity;
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_category, container, false);
+        mainActivity = (MainActivity) getActivity();
         list = new ArrayList<>();
 
-        toolbar = findViewById(R.id.toolbar2);
-        grid = findViewById(R.id.grid);
-        progress = findViewById(R.id.progressBar2);
+        toolbar = view.findViewById(R.id.toolbar2);
+        grid = view.findViewById(R.id.grid);
+        progress = view.findViewById(R.id.progressBar2);
 
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setTitleTextColor(Color.WHITE);
-        toolbar.setTitle("Categories");
-        toolbar.setNavigationIcon(R.drawable.ic_back);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-
-        });
-
-
-        adapter = new CategoryAdapter(this, list);
-        GridLayoutManager manager = new GridLayoutManager(this, 1);
+        adapter = new CategoryAdapter(mainActivity, list);
+        GridLayoutManager manager = new GridLayoutManager(mainActivity, 1);
 
         grid.setAdapter(adapter);
         grid.setLayoutManager(manager);
 
+        return view;
+
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
 
         progress.setVisibility(View.VISIBLE);
 
-        Bean b = (Bean) getApplicationContext();
+        Bean b = (Bean) mainActivity.getApplicationContext();
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.level(HttpLoggingInterceptor.Level.HEADERS);
@@ -265,10 +261,19 @@ public class Category extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    Intent intent = new Intent(context , Products.class);
-                    intent.putExtra("id" , item.getId());
-                    intent.putExtra("title" , item.getName());
-                    context.startActivity(intent);
+
+                    FragmentManager fm4 = mainActivity.getSupportFragmentManager();
+
+                    FragmentTransaction ft4 = fm4.beginTransaction();
+                    Products frag14 = new Products();
+                    Bundle b = new Bundle();
+                    b.putString("id", item.getId());
+                    b.putString("title", item.getName());
+                    frag14.setArguments(b);
+                    ft4.replace(R.id.replace, frag14);
+                    ft4.addToBackStack(null);
+                    ft4.commit();
+
 
                 }
             });

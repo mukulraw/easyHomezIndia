@@ -734,7 +734,7 @@ public class Cart extends AppCompatActivity {
                                     public void onResponse(Call<singleProductBean> call, Response<singleProductBean> response) {
 
                                         if (response.body().getStatus().equals("1")) {
-                                            //loadCart();
+                                            loadCart();
                                             dialog.dismiss();
                                         }
 

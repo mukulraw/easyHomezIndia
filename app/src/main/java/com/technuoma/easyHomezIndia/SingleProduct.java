@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -33,6 +34,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.technuoma.easyHomezIndia.cartPOJO.cartBean;
 import com.technuoma.easyHomezIndia.homePOJO.Banners;
 import com.technuoma.easyHomezIndia.homePOJO.Best;
 import com.technuoma.easyHomezIndia.homePOJO.homeBean;
@@ -79,6 +81,9 @@ public class SingleProduct extends AppCompatActivity {
 
     ImageButton wishlist;
 
+    ImageButton cart1;
+    TextView count;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +95,8 @@ public class SingleProduct extends AppCompatActivity {
         name = getIntent().getStringExtra("title");
 
         loved = findViewById(R.id.loved);
+        count = findViewById(R.id.count);
+        cart1 = findViewById(R.id.imageButton3);
         wishlist = findViewById(R.id.wishlist);
         recent = findViewById(R.id.recent);
         toolbar = findViewById(R.id.toolbar);
@@ -250,7 +257,7 @@ public class SingleProduct extends AppCompatActivity {
                                     public void onResponse(Call<singleProductBean> call, Response<singleProductBean> response) {
 
                                         if (response.body().getStatus().equals("1")) {
-                                            //loadCart();
+                                            loadCart();
                                             dialog.dismiss();
                                         }
 
@@ -282,7 +289,71 @@ public class SingleProduct extends AppCompatActivity {
             }
         });
 
+        cart1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                Intent intent = new Intent(SingleProduct.this, Cart.class);
+                startActivity(intent);
+
+
+            }
+        });
+
+
+    }
+
+    void loadCart() {
+        String uid = SharePreferenceUtils.getInstance().getString("userId");
+
+        if (uid.length() > 0) {
+            Bean b = (Bean) getApplicationContext();
+
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.level(HttpLoggingInterceptor.Level.HEADERS);
+            logging.level(HttpLoggingInterceptor.Level.BODY);
+
+            OkHttpClient client = new OkHttpClient.Builder().writeTimeout(1000, TimeUnit.SECONDS).readTimeout(1000, TimeUnit.SECONDS).connectTimeout(1000, TimeUnit.SECONDS).addInterceptor(logging).build();
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(b.baseurl)
+                    .client(client)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+            Call<cartBean> call2 = cr.getCart(SharePreferenceUtils.getInstance().getString("userId"));
+            call2.enqueue(new Callback<cartBean>() {
+                @Override
+                public void onResponse(Call<cartBean> call, Response<cartBean> response) {
+
+                    if (response.body().getData().size() > 0) {
+
+
+                        count.setText(String.valueOf(response.body().getData().size()));
+
+
+                    } else {
+
+                        count.setText("0");
+
+                    }
+
+
+                }
+
+                @Override
+                public void onFailure(Call<cartBean> call, Throwable t) {
+
+                }
+            });
+
+
+        } else {
+            count.setText("0");
+        }
     }
 
     @Override
@@ -520,6 +591,8 @@ public class SingleProduct extends AppCompatActivity {
             }
         });
 
+        loadCart();
+
     }
 
     class BannerAdapter extends FragmentStatePagerAdapter {
@@ -723,7 +796,7 @@ public class SingleProduct extends AppCompatActivity {
                                     public void onResponse(Call<singleProductBean> call, Response<singleProductBean> response) {
 
                                         if (response.body().getStatus().equals("1")) {
-                                            //loadCart();
+                                            loadCart();
                                             dialog.dismiss();
                                         }
 

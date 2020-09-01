@@ -53,12 +53,13 @@ public class productList extends Fragment {
 
     List<Datum> list;
     BestAdapter adapter;
+    static MainActivity mainActivity;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.product_layout, container, false);
-
+        mainActivity = (MainActivity) getActivity();
         list = new ArrayList<>();
 
         id = getArguments().getString("id");
@@ -270,7 +271,7 @@ public class productList extends Fragment {
                                     public void onResponse(Call<singleProductBean> call, Response<singleProductBean> response) {
 
                                         if (response.body().getStatus().equals("1")) {
-                                            //loadCart();
+                                            mainActivity.loadCart();
                                             dialog.dismiss();
                                         }
 
@@ -310,7 +311,7 @@ public class productList extends Fragment {
         class ViewHolder extends RecyclerView.ViewHolder {
 
             ImageView image;
-            TextView price, title, discount, stock , newamount , size;
+            TextView price, title, discount, stock, newamount, size;
             Button add;
 
             public ViewHolder(@NonNull View itemView) {
