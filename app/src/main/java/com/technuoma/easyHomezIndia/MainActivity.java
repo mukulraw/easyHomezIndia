@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawer;
     TextView count, rewards, login, terms, about, address, logout, cart, orders, refer, location, wishlist;
     ImageButton cart1;
+    TextView email, phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
         address = findViewById(R.id.address);
         logout = findViewById(R.id.logout);
         cart = findViewById(R.id.cart);
+        email = findViewById(R.id.textView74);
+        phone = findViewById(R.id.textView73);
 
         setSupportActionBar(toolbar);
 
@@ -134,7 +137,9 @@ public class MainActivity extends AppCompatActivity {
         final String uid = SharePreferenceUtils.getInstance().getString("userId");
 
         if (uid.length() > 0) {
-            login.setText(SharePreferenceUtils.getInstance().getString("phone"));
+            login.setText(SharePreferenceUtils.getInstance().getString("name"));
+            email.setText(SharePreferenceUtils.getInstance().getString("email"));
+            phone.setText(SharePreferenceUtils.getInstance().getString("phone"));
             rewards.setText("Wallet - " + SharePreferenceUtils.getInstance().getString("rewards"));
             //rewards.setVisibility(View.VISIBLE);
             getRew();

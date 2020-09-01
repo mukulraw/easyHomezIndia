@@ -196,6 +196,8 @@ public class Home extends Fragment implements ResultCallback<LocationSettingsRes
             }
         });
 
+
+        progress.setVisibility(View.VISIBLE);
         createLocationRequest();
 
 
@@ -392,12 +394,10 @@ public class Home extends Fragment implements ResultCallback<LocationSettingsRes
     }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    public void loaddata() {
 
 
-        progress.setVisibility(View.VISIBLE);
+
 
         Bean b = (Bean) mainActivity.getApplicationContext();
 
@@ -537,13 +537,13 @@ public class Home extends Fragment implements ResultCallback<LocationSettingsRes
                     List<android.location.Address> addresses = null;
                     try {
                         addresses = geocoder.getFromLocation(Double.parseDouble(SharePreferenceUtils.getInstance().getString("lat")), Double.parseDouble(SharePreferenceUtils.getInstance().getString("lng")), 1);
-                    } catch (IOException e) {
+                        mainActivity.location.setText(addresses.get(0).getAddressLine(0));
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
-                    Log.d("address", addresses.toString());
+                    //Log.d("address", addresses.toString());
 
-                    mainActivity.location.setText(addresses.get(0).getAddressLine(0));
 
                 }
 
@@ -1072,6 +1072,8 @@ public class Home extends Fragment implements ResultCallback<LocationSettingsRes
                         Log.d("lat123", lat);
 
                         LocationServices.getFusedLocationProviderClient(mainActivity).removeLocationUpdates(this);
+
+                        loaddata();
 
                     }
                 }
