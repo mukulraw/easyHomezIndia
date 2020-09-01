@@ -12,8 +12,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -37,7 +39,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class SubCat extends AppCompatActivity {
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+
+public class SubCat extends Fragment {
 
     Toolbar toolbar;
     RecyclerView grid;
@@ -49,59 +53,51 @@ public class SubCat extends AppCompatActivity {
     ImageView main_image;
 
     TextView title2;
+    static MainActivity mainActivity;
 
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sub_cat);
-
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_sub_cat, container, false);
+        mainActivity = (MainActivity) getActivity();
         list = new ArrayList<>();
 
-        id = getIntent().getStringExtra("id");
-        title = getIntent().getStringExtra("title");
-        image = getIntent().getStringExtra("image");
+        id = getArguments().getString("id");
+        title = getArguments().getString("title");
+        image = getArguments().getString("image");
 
 
-        toolbar = findViewById(R.id.toolbar2);
-        title2 = findViewById(R.id.textView69);
-        grid = findViewById(R.id.grid);
-        progress = findViewById(R.id.progressBar2);
-        main_image = findViewById(R.id.main_image);
+        toolbar = view.findViewById(R.id.toolbar2);
+        title2 = view.findViewById(R.id.textView69);
+        grid = view.findViewById(R.id.grid);
+        progress = view.findViewById(R.id.progressBar2);
+        main_image = view.findViewById(R.id.main_image);
 
         title2.setText(title);
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setTitleTextColor(Color.WHITE);
-        toolbar.setTitle(title);
-        toolbar.setNavigationIcon(R.drawable.ic_back);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-
-        });
 
 
         DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
         ImageLoader loader = ImageLoader.getInstance();
         loader.displayImage(image, main_image, options);
 
-        adapter = new CategoryAdapter(this, list);
-        GridLayoutManager manager = new GridLayoutManager(this, 3);
+        adapter = new CategoryAdapter(mainActivity, list);
+        GridLayoutManager manager = new GridLayoutManager(mainActivity, 3);
 
         grid.setAdapter(adapter);
         grid.setLayoutManager(manager);
+
+        return view;
+
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
 
         progress.setVisibility(View.VISIBLE);
 
-        Bean b = (Bean) getApplicationContext();
+        Bean b = (Bean) mainActivity.getApplicationContext();
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.level(HttpLoggingInterceptor.Level.HEADERS);
@@ -180,7 +176,7 @@ public class SubCat extends AppCompatActivity {
                 public void onClick(View view) {
 
 
-                    FragmentManager fm4 = getSupportFragmentManager();
+                    FragmentManager fm4 = mainActivity.getSupportFragmentManager();
 
                     FragmentTransaction ft4 = fm4.beginTransaction();
                     Products frag14 = new Products();

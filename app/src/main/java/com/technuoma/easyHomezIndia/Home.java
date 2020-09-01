@@ -615,11 +615,25 @@ public class Home extends Fragment implements ResultCallback<LocationSettingsRes
                 public void onClick(View v) {
 
                     if (cid != null) {
-                        Intent intent = new Intent(getContext(), SubCat.class);
+
+                        FragmentManager fm4 = mainActivity.getSupportFragmentManager();
+
+                        FragmentTransaction ft4 = fm4.beginTransaction();
+                        SubCat frag14 = new SubCat();
+                        Bundle b = new Bundle();
+                        b.putString("id", cid);
+                        b.putString("title", tit);
+                        b.putString("image", image2);
+                        frag14.setArguments(b);
+                        ft4.replace(R.id.replace, frag14);
+                        ft4.addToBackStack(null);
+                        ft4.commit();
+
+                        /*Intent intent = new Intent(getContext(), SubCat.class);
                         intent.putExtra("id", cid);
                         intent.putExtra("title", tit);
                         intent.putExtra("image", image2);
-                        startActivity(intent);
+                        startActivity(intent);*/
                     }
 
 
