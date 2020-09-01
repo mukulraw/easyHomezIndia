@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     Toolbar toolbar;
     DrawerLayout drawer;
-    TextView count, rewards, login, terms, about, address, logout, cart, orders, refer, location, wishlist;
+    TextView count, rewards, login, terms, about, address, logout, cart, orders, refer, location, wishlist, profile;
     ImageButton cart1;
     TextView email, phone;
 
@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
         cart = findViewById(R.id.cart);
         email = findViewById(R.id.textView74);
         phone = findViewById(R.id.textView73);
+        profile = findViewById(R.id.profile);
 
         setSupportActionBar(toolbar);
 
@@ -215,6 +216,17 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, Web.class);
                 intent.putExtra("title", "About Us");
                 intent.putExtra("url", "https://technuoma.com/easyhomez/about.php");
+                startActivity(intent);
+                drawer.closeDrawer(GravityCompat.START);
+
+            }
+        });
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, Profile.class);
                 startActivity(intent);
                 drawer.closeDrawer(GravityCompat.START);
 
@@ -341,6 +353,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        final String uid = SharePreferenceUtils.getInstance().getString("userId");
+
+        if (uid.length() > 0) {
+            login.setText(SharePreferenceUtils.getInstance().getString("name"));
+            email.setText(SharePreferenceUtils.getInstance().getString("email"));
+            phone.setText(SharePreferenceUtils.getInstance().getString("phone"));
+            rewards.setText("Wallet - " + SharePreferenceUtils.getInstance().getString("rewards"));
+            //rewards.setVisibility(View.VISIBLE);
+            getRew();
+        } else {
+            rewards.setVisibility(View.GONE);
+        }
+
+        loadCart();
+
+    }
 
     void loadCart() {
         String uid = SharePreferenceUtils.getInstance().getString("userId");

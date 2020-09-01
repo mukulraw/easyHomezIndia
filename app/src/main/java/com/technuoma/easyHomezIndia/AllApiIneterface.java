@@ -77,6 +77,14 @@ public interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("easyhomez/api/updateProfile.php")
+    Call<loginBean> updateProfile(
+            @Part("user_id") String user_id,
+            @Part("name") String name,
+            @Part("email") String email
+    );
+
+    @Multipart
     @POST("easyhomez/api/addCart.php")
     Call<singleProductBean> addCart(
             @Part("user_id") String user_id,

@@ -16,7 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Wishlist"></activity>
+        <activity android:name=".EditProfile"></activity>
+        <activity android:name=".Profile" />
+        <activity android:name=".Wishlist" />
         <activity android:name=".Signup" />
         <activity android:name=".Address" />
         <activity android:name=".Web" />
