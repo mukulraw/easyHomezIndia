@@ -82,7 +82,10 @@ public interface AllApiIneterface {
     Call<loginBean> updateProfile(
             @Part("user_id") String user_id,
             @Part("name") String name,
-            @Part("email") String email
+            @Part("email") String email,
+            @Part("aadhar") String aadhar,
+            @Part("pan") String pan,
+            @Part("bank") String bank
     );
 
     @Multipart

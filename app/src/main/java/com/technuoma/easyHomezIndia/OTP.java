@@ -103,6 +103,9 @@ public class OTP extends AppCompatActivity {
                                 SharePreferenceUtils.getInstance().saveString("email" , response.body().getEmail());
                                 SharePreferenceUtils.getInstance().saveString("image" , response.body().getImage());
                                 SharePreferenceUtils.getInstance().saveString("code" , response.body().getCode());
+                                SharePreferenceUtils.getInstance().saveString("aadhar" , response.body().getAadhar());
+                                SharePreferenceUtils.getInstance().saveString("pan" , response.body().getPan());
+                                SharePreferenceUtils.getInstance().saveString("bank" , response.body().getBank());
                                 Toast.makeText(OTP.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
                                 Intent intent = new Intent(OTP.this , MainActivity.class);

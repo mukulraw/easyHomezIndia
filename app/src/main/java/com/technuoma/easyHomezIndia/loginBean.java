@@ -31,6 +31,15 @@ public class loginBean {
     @SerializedName("image")
     @Expose
     private String image;
+    @SerializedName("aadhar")
+    @Expose
+    private String aadhar;
+    @SerializedName("pan")
+    @Expose
+    private String pan;
+    @SerializedName("bank")
+    @Expose
+    private String bank;
 
     public String getStatus() {
         return status;
@@ -102,5 +111,29 @@ public class loginBean {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getAadhar() {
+        return aadhar;
+    }
+
+    public String getBank() {
+        return bank;
+    }
+
+    public String getPan() {
+        return pan;
+    }
+
+    public void setAadhar(String aadhar) {
+        this.aadhar = aadhar;
+    }
+
+    public void setBank(String bank) {
+        this.bank = bank;
+    }
+
+    public void setPan(String pan) {
+        this.pan = pan;
     }
 }

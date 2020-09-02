@@ -49,7 +49,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class Profile extends AppCompatActivity {
 
     private Toolbar toolbar;
-    TextView code, name, email, phone, edit;
+    TextView code, name, email, phone, edit, aadhar, pan, account;
     CircleImageView image;
 
     private Uri uri;
@@ -69,6 +69,9 @@ public class Profile extends AppCompatActivity {
         edit = findViewById(R.id.textView96);
         image = findViewById(R.id.imageView13);
         progress = findViewById(R.id.progressBar);
+        aadhar = findViewById(R.id.textView98);
+        pan = findViewById(R.id.textView100);
+        account = findViewById(R.id.textView102);
         setSupportActionBar(toolbar);
 
 
@@ -158,6 +161,9 @@ public class Profile extends AppCompatActivity {
         name.setText(SharePreferenceUtils.getInstance().getString("name"));
         email.setText(SharePreferenceUtils.getInstance().getString("email"));
         phone.setText(SharePreferenceUtils.getInstance().getString("phone"));
+        aadhar.setText(SharePreferenceUtils.getInstance().getString("aadhar"));
+        pan.setText(SharePreferenceUtils.getInstance().getString("pan"));
+        account.setText(SharePreferenceUtils.getInstance().getString("bank"));
 
         DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).showImageForEmptyUri(R.drawable.download).build();
         ImageLoader loader = ImageLoader.getInstance();

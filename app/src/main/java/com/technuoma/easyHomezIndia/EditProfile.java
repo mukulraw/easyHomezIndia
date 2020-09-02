@@ -29,7 +29,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class EditProfile extends AppCompatActivity {
 
     private Toolbar toolbar;
-    EditText name, email;
+    EditText name, email, aadhar, pan, account;
 
     ProgressBar progress;
     Button login;
@@ -44,6 +44,9 @@ public class EditProfile extends AppCompatActivity {
         email = findViewById(R.id.editTextTextEmailAddress);
         login = findViewById(R.id.button);
         progress = findViewById(R.id.progressBar);
+        aadhar = findViewById(R.id.textView98);
+        pan = findViewById(R.id.textView100);
+        account = findViewById(R.id.textView102);
 
         setSupportActionBar(toolbar);
 
@@ -63,6 +66,9 @@ public class EditProfile extends AppCompatActivity {
 
         name.setText(SharePreferenceUtils.getInstance().getString("name"));
         email.setText(SharePreferenceUtils.getInstance().getString("email"));
+        aadhar.setText(SharePreferenceUtils.getInstance().getString("aadhar"));
+        pan.setText(SharePreferenceUtils.getInstance().getString("pan"));
+        account.setText(SharePreferenceUtils.getInstance().getString("bank"));
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,56 +76,77 @@ public class EditProfile extends AppCompatActivity {
 
                 String n = name.getText().toString();
                 String e = email.getText().toString();
+                String a = aadhar.getText().toString();
+                String p = pan.getText().toString();
+                String ba = account.getText().toString();
 
                 if (n.length() > 0) {
                     if (e.length() > 0) {
 
-                        progress.setVisibility(View.VISIBLE);
+                        if (a.length() == 16) {
+                            if (p.length() > 0) {
+                                if (ba.length() > 0) {
 
-                        Bean b = (Bean) getApplicationContext();
+                                    progress.setVisibility(View.VISIBLE);
 
-                        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-                        logging.level(HttpLoggingInterceptor.Level.HEADERS);
-                        logging.level(HttpLoggingInterceptor.Level.BODY);
+                                    Bean b = (Bean) getApplicationContext();
 
-                        OkHttpClient client = new OkHttpClient.Builder().writeTimeout(1000, TimeUnit.SECONDS).readTimeout(1000, TimeUnit.SECONDS).connectTimeout(1000, TimeUnit.SECONDS).addInterceptor(logging).build();
+                                    HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+                                    logging.level(HttpLoggingInterceptor.Level.HEADERS);
+                                    logging.level(HttpLoggingInterceptor.Level.BODY);
 
-                        Retrofit retrofit = new Retrofit.Builder()
-                                .baseUrl(b.baseurl)
-                                .client(client)
-                                .addConverterFactory(ScalarsConverterFactory.create())
-                                .addConverterFactory(GsonConverterFactory.create())
-                                .build();
+                                    OkHttpClient client = new OkHttpClient.Builder().writeTimeout(1000, TimeUnit.SECONDS).readTimeout(1000, TimeUnit.SECONDS).connectTimeout(1000, TimeUnit.SECONDS).addInterceptor(logging).build();
 
-                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+                                    Retrofit retrofit = new Retrofit.Builder()
+                                            .baseUrl(b.baseurl)
+                                            .client(client)
+                                            .addConverterFactory(ScalarsConverterFactory.create())
+                                            .addConverterFactory(GsonConverterFactory.create())
+                                            .build();
 
-                        Call<loginBean> call = cr.updateProfile(SharePreferenceUtils.getInstance().getString("userId"), n, e);
+                                    AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-                        call.enqueue(new Callback<loginBean>() {
-                            @Override
-                            public void onResponse(@NotNull Call<loginBean> call, @NotNull Response<loginBean> response) {
+                                    Call<loginBean> call = cr.updateProfile(SharePreferenceUtils.getInstance().getString("userId"), n, e, a, p, ba);
 
-                                assert response.body() != null;
-                                if (response.body().getStatus().equals("1")) {
-                                    SharePreferenceUtils.getInstance().saveString("name" , response.body().getName());
-                                    SharePreferenceUtils.getInstance().saveString("email" , response.body().getEmail());
-                                    Toast.makeText(EditProfile.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                    call.enqueue(new Callback<loginBean>() {
+                                        @Override
+                                        public void onResponse(@NotNull Call<loginBean> call, @NotNull Response<loginBean> response) {
 
-                                    finish();
+                                            assert response.body() != null;
+                                            if (response.body().getStatus().equals("1")) {
+                                                SharePreferenceUtils.getInstance().saveString("name", response.body().getName());
+                                                SharePreferenceUtils.getInstance().saveString("email", response.body().getEmail());
+                                                SharePreferenceUtils.getInstance().saveString("aadhar", response.body().getAadhar());
+                                                SharePreferenceUtils.getInstance().saveString("pan", response.body().getPan());
+                                                SharePreferenceUtils.getInstance().saveString("bank", response.body().getBank());
+                                                Toast.makeText(EditProfile.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                                finish();
+
+                                            } else {
+                                                Toast.makeText(EditProfile.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+
+                                            progress.setVisibility(View.GONE);
+
+                                        }
+
+                                        @Override
+                                        public void onFailure(@NotNull Call<loginBean> call, @NotNull Throwable t) {
+                                            progress.setVisibility(View.GONE);
+                                        }
+                                    });
 
                                 } else {
-                                    Toast.makeText(EditProfile.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(EditProfile.this, "Invalid account number", Toast.LENGTH_SHORT).show();
                                 }
-
-                                progress.setVisibility(View.GONE);
-
+                            } else {
+                                Toast.makeText(EditProfile.this, "Invalid PAN number", Toast.LENGTH_SHORT).show();
                             }
+                        } else {
+                            Toast.makeText(EditProfile.this, "Invalid aadhar number", Toast.LENGTH_SHORT).show();
+                        }
 
-                            @Override
-                            public void onFailure(@NotNull Call<loginBean> call, @NotNull Throwable t) {
-                                progress.setVisibility(View.GONE);
-                            }
-                        });
 
                     } else {
                         Toast.makeText(EditProfile.this, "Invalid email", Toast.LENGTH_SHORT).show();
