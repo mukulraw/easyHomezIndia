@@ -101,6 +101,7 @@ public class OTP extends AppCompatActivity {
                                 SharePreferenceUtils.getInstance().saveString("rewards" , response.body().getRewards());
                                 SharePreferenceUtils.getInstance().saveString("name" , response.body().getName());
                                 SharePreferenceUtils.getInstance().saveString("email" , response.body().getEmail());
+                                SharePreferenceUtils.getInstance().saveString("image" , response.body().getImage());
                                 SharePreferenceUtils.getInstance().saveString("code" , response.body().getCode());
                                 Toast.makeText(OTP.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
 

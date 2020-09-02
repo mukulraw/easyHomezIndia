@@ -28,6 +28,9 @@ public class loginBean {
     @SerializedName("code")
     @Expose
     private String code;
+    @SerializedName("image")
+    @Expose
+    private String image;
 
     public String getStatus() {
         return status;
@@ -91,5 +94,13 @@ public class loginBean {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

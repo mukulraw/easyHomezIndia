@@ -78,6 +78,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import me.relex.circleindicator.CircleIndicator;
 import nl.dionsegijn.steppertouch.StepperTouch;
 import okhttp3.OkHttpClient;
@@ -97,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
     TextView count, rewards, login, terms, about, address, logout, cart, orders, refer, location, wishlist, profile;
     ImageButton cart1;
     TextView email, phone;
+
+    CircleImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
         email = findViewById(R.id.textView74);
         phone = findViewById(R.id.textView73);
         profile = findViewById(R.id.profile);
+        image = findViewById(R.id.imageView10);
 
         setSupportActionBar(toolbar);
 
@@ -365,6 +369,13 @@ public class MainActivity extends AppCompatActivity {
             phone.setText(SharePreferenceUtils.getInstance().getString("phone"));
             rewards.setText("Wallet - " + SharePreferenceUtils.getInstance().getString("rewards"));
             //rewards.setVisibility(View.VISIBLE);
+
+
+            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).showImageForEmptyUri(R.drawable.download).build();
+            ImageLoader loader = ImageLoader.getInstance();
+            loader.displayImage(SharePreferenceUtils.getInstance().getString("image"), image, options);
+
+
             getRew();
         } else {
             rewards.setVisibility(View.GONE);

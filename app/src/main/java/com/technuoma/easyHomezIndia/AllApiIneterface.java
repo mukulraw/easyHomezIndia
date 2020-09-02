@@ -12,6 +12,7 @@ import com.technuoma.easyHomezIndia.searchPOJO.searchBean;
 import com.technuoma.easyHomezIndia.seingleProductPOJO.singleProductBean;
 import com.technuoma.easyHomezIndia.subCat1POJO.subCat1Bean;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -82,6 +83,13 @@ public interface AllApiIneterface {
             @Part("user_id") String user_id,
             @Part("name") String name,
             @Part("email") String email
+    );
+
+    @Multipart
+    @POST("easyhomez/api/uploadPP.php")
+    Call<loginBean> uploadPP(
+            @Part("user_id") String user_id,
+            @Part MultipartBody.Part file1
     );
 
     @Multipart
