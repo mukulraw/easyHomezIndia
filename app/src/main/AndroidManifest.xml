@@ -15,17 +15,29 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".EditProfile"/>
-        <activity android:name=".Profile" />
-        <activity android:name=".Wishlist" />
-        <activity android:name=".Signup" />
-        <activity android:name=".Address" />
-        <activity android:name=".Web" />
+        <activity
+            android:name=".EditProfile"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Profile"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Wishlist"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Signup"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Address"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Web"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".OrderDetails"
             android:screenOrientation="portrait" />
@@ -49,15 +61,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".SingleProduct"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Products"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".SubCat"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Category"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Login"

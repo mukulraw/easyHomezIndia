@@ -96,6 +96,13 @@ public interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("easyhomez/api/uploadManual.php")
+    Call<loginBean> uploadManual(
+            @Part("user_id") String user_id,
+            @Part MultipartBody.Part file1
+    );
+
+    @Multipart
     @POST("easyhomez/api/addCart.php")
     Call<singleProductBean> addCart(
             @Part("user_id") String user_id,

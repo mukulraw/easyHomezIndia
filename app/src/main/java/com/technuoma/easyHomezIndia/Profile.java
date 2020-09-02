@@ -240,7 +240,7 @@ public class Profile extends AppCompatActivity {
 
                     if (response.body().getStatus().equals("1")) {
                         SharePreferenceUtils.getInstance().saveString("image" , response.body().getImage());
-
+                        Toast.makeText(Profile.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         onResume();
 
                     } else {
@@ -312,7 +312,7 @@ public class Profile extends AppCompatActivity {
 
                     if (response.body().getStatus().equals("1")) {
                         SharePreferenceUtils.getInstance().saveString("image" , response.body().getImage());
-
+                        Toast.makeText(Profile.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         onResume();
 
                     } else {
