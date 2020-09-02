@@ -267,6 +267,62 @@ public class Profile extends AppCompatActivity {
             }
 
             //image.setImageURI(uri);
+
+            progress.setVisibility(View.VISIBLE);
+
+            Bean b = (Bean) getApplicationContext();
+
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.level(HttpLoggingInterceptor.Level.HEADERS);
+            logging.level(HttpLoggingInterceptor.Level.BODY);
+
+            OkHttpClient client = new OkHttpClient.Builder().writeTimeout(1000, TimeUnit.SECONDS).readTimeout(1000, TimeUnit.SECONDS).connectTimeout(1000, TimeUnit.SECONDS).addInterceptor(logging).build();
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(b.baseurl)
+                    .client(client)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+            MultipartBody.Part body = null;
+            try {
+
+                RequestBody reqFile1 = RequestBody.create(MediaType.parse("multipart/form-data"), f1);
+                body = MultipartBody.Part.createFormData("image", f1.getName(), reqFile1);
+
+
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+
+            Call<loginBean> call = cr.uploadPP(SharePreferenceUtils.getInstance().getString("userId"), body);
+
+            call.enqueue(new Callback<loginBean>() {
+                @Override
+                public void onResponse(Call<loginBean> call, Response<loginBean> response) {
+
+                    if (response.body().getStatus().equals("1")) {
+                        SharePreferenceUtils.getInstance().saveString("image" , response.body().getImage());
+
+                        onResume();
+
+                    } else {
+                        Toast.makeText(Profile.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    progress.setVisibility(View.GONE);
+
+                }
+
+                @Override
+                public void onFailure(Call<loginBean> call, Throwable t) {
+                    progress.setVisibility(View.GONE);
+                }
+            });
+
         }
 
 
