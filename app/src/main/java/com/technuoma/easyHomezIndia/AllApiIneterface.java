@@ -215,4 +215,11 @@ public interface AllApiIneterface {
             @Part("pin") String pin,
             @Part("isnew") String isnew
     );
+
+    @Multipart
+    @POST("easyhomez/api/getOrderId.php")
+    Call<payBean> getOrderId(
+            @Part("amount") String amount,
+            @Part("receipt") String receipt
+    );
 }
