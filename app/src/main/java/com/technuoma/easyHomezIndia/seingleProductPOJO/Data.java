@@ -3,6 +3,8 @@ package com.technuoma.easyHomezIndia.seingleProductPOJO;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Data {
     @SerializedName("id")
     @Expose
@@ -36,7 +38,7 @@ public class Data {
     private String description;
     @SerializedName("image")
     @Expose
-    private String image;
+    private List<String> image = null;
     @SerializedName("key_features")
     @Expose
     private String keyFeatures;
@@ -55,18 +57,18 @@ public class Data {
     @SerializedName("disclaimer")
     @Expose
     private String disclaimer;
-    @SerializedName("status")
-    @Expose
-    private String status;
-    @SerializedName("created")
-    @Expose
-    private String created;
-    @SerializedName("stock")
-    @Expose
-    private String stock;
     @SerializedName("wishlist")
     @Expose
     private String wishlist;
+    @SerializedName("status")
+    @Expose
+    private String status;
+    @SerializedName("stock")
+    @Expose
+    private String stock;
+    @SerializedName("created")
+    @Expose
+    private String created;
 
     public String getId() {
         return id;
@@ -148,11 +150,11 @@ public class Data {
         this.description = description;
     }
 
-    public String getImage() {
+    public List<String> getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(List<String> image) {
         this.image = image;
     }
 
@@ -204,20 +206,20 @@ public class Data {
         this.disclaimer = disclaimer;
     }
 
+    public String getWishlist() {
+        return wishlist;
+    }
+
+    public void setWishlist(String wishlist) {
+        this.wishlist = wishlist;
+    }
+
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getCreated() {
-        return created;
-    }
-
-    public void setCreated(String created) {
-        this.created = created;
     }
 
     public String getStock() {
@@ -228,11 +230,11 @@ public class Data {
         this.stock = stock;
     }
 
-    public String getWishlist() {
-        return wishlist;
+    public String getCreated() {
+        return created;
     }
 
-    public void setWishlist(String wishlist) {
-        this.wishlist = wishlist;
+    public void setCreated(String created) {
+        this.created = created;
     }
 }

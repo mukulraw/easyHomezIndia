@@ -390,10 +390,7 @@ public class SingleProduct extends AppCompatActivity {
 
                     pid = item.getId();
 
-                    List<String> urls = new ArrayList<>();
-                    urls.add(item.getImage());
-
-                    BannerAdapter adapter = new BannerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, urls);
+                    BannerAdapter adapter = new BannerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, item.getImage());
                     image.setAdapter(adapter);
                     indicator.setViewPager(image);
 
