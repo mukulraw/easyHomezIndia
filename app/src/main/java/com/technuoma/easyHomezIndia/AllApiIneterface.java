@@ -222,4 +222,11 @@ public interface AllApiIneterface {
             @Part("amount") String amount,
             @Part("receipt") String receipt
     );
+
+    @Multipart
+    @POST("easyhomez/api/getLogs.php")
+    Call<trackBean> getLogs(
+            @Part("order_id") String order_id
+    );
+
 }

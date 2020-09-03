@@ -1,6 +1,7 @@
 package com.technuoma.easyHomezIndia;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.technuoma.easyHomezIndia.orderDetailsPOJO.Datum;
@@ -42,7 +44,8 @@ public class OrderDetails extends AppCompatActivity {
     ProgressBar progress;
     List<Datum> list;
     CategoryAdapter adapter;
-    String oid;
+    String oid, status;
+    FloatingActionButton track;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +53,14 @@ public class OrderDetails extends AppCompatActivity {
         setContentView(R.layout.activity_order_details);
 
         oid = getIntent().getStringExtra("oid");
+        status = getIntent().getStringExtra("status");
 
         list = new ArrayList<>();
 
         toolbar = findViewById(R.id.toolbar2);
         grid = findViewById(R.id.grid);
         progress = findViewById(R.id.progressBar2);
+        track = findViewById(R.id.floatingActionButton);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -76,6 +81,24 @@ public class OrderDetails extends AppCompatActivity {
 
         grid.setAdapter(adapter);
         grid.setLayoutManager(manager);
+
+        if (status.equals("out for delivery")) {
+            track.setVisibility(View.VISIBLE);
+        } else {
+            track.setVisibility(View.GONE);
+        }
+
+        track.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(OrderDetails.this, MapsActivity.class);
+                intent.putExtra("order", oid);
+                startActivity(intent);
+
+            }
+        });
+
 
     }
 

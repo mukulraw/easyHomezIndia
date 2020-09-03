@@ -182,6 +182,7 @@ public class Orders extends AppCompatActivity {
 
                     Intent intent = new Intent(context , OrderDetails.class);
                     intent.putExtra("oid" , item.getId());
+                    intent.putExtra("status" , item.getStatus());
                     startActivity(intent);
 
                 }
